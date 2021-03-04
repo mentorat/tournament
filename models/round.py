@@ -55,6 +55,10 @@ class Round:
             self.matchs.append(match)
         return self.matchs
 
+    def is_paired(self, player):
+        """Rapide fonction pour éviter le code bourratif."""
+        return player.first_name in self.players_paired
+
     def get_opponents(self, players):
         """
         Rounds 2 3 4 : The players are ranked by best score then best rank.
@@ -64,26 +68,32 @@ class Round:
         player[2] vs players[3]
         player[4] vs players[5]
         player[6] vs players[7].
+
+        NOTE: pourquoi se compliquer la vie avec les indexes ? On peut directement
+        travailler avec les joueurs ici.
+
+        Le problème ici est qu'on arrive pas à lire le code, il est trop cryptique.
+        C'est donc difficile de le retravailler ou le faire évoluer.
+
+        Pas testé le code donc à toi de vérifier la solution. :)
         """
-        for i in range(len(players)):
-            while players[i].first_name not in self.players_paired:
-                j = i + 1
-                while (
-                    j < len(players)
-                    and players[j].first_name in self.players_paired
-                    or players[j].first_name in players[i].opponents
-                    or players[i].first_name in players[j].opponents
-                ):
-                    j += 1
-                players[i].opponents.append(players[j].first_name)
-                players[j].opponents.append(players[i].first_name)
-                match = (
-                    (players[i].first_name, players[i].points),
-                    (players[j].first_name, players[j].points),
-                )
-                self.matchs.append(match)
-                self.players_paired.append(players[i].first_name)
-                self.players_paired.append(players[j].first_name)
-                View.display_next_round(players, i, j)
-            i += 1
+        while players:
+            player1 = players.pop(0)
+            player2 = None
+
+            player2_index = None
+            for index, player in enumerate(players):
+                if not self.is_paired(player):
+                    player2_index = index
+                    break
+
+            player2 = players.pop(player2_index)
+
+            match = (
+                (player1.first_name, player1.points),
+                (player2.first_name, player2.points),
+            )
+            self.matchs.append(match)
+            self.players_paired.extend([player1.first_name, player2.first_name])
+            # View.display_next_round(players, i, j) pas de vues ici !
         return self.matchs
