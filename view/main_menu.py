@@ -1,4 +1,6 @@
 class MainMenuView:
+    # SI je ne dis pas de bếtises, étant donné que tu instancie chaque vue dans tes controllers, tu pourrais faire des
+    # méthodes d'instance à chaque fois.
     @classmethod
     def display(cls):
         """Display the main menu."""

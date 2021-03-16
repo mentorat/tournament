@@ -17,6 +17,10 @@ class Reports:
 
     def get_command(self):
         """Display the reports' menu."""
+        # Dans l'idéal il faudrait retourner la commande et créer une méthode update
+        # pour toute mise à jour. Cela demanderait d'appeler cette méthode depuis le main controller,
+        # dans sa propre méthode update avant de faire la mise à jour globale.
+        # je te demanderai pas de le faire, mais à garder de côté comme argument d'amélioration pour la soutenance.
         db = TinyDB("TOURNAMENTS.json")
         command = Input.for_range(
             "Enter your command (1, 2, 3, 4, 5) : \n", [1, 2, 3, 4, 5]

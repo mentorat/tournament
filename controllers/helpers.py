@@ -1,5 +1,6 @@
 """Helpers."""
 
+# je mettrais ce fichier à la racine du dossier app, car ce n'est pas un controller en soi.
 
 class Input:
     """Help class for input function."""
